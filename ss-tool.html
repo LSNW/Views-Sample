@@ -1,0 +1,104 @@
+{% extends "split/base.html" %}
+{% block content %}
+<div class="row content-buffer">
+  <div class="col-lg-1">
+    <div class="row justify-content-end">
+      <h1 class="vert-page-name col-12 d-none d-lg-block">StampSplitter</h1>
+    </div>
+  </div>
+  <div class="content col-lg-10 col-md-12 col-sm-12">
+
+    <form id="fileInput" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      <div id="file-dropbox"></div>
+      {% if form.errors.avfile %}
+      {{ form.errors.avfile }}
+      <h3 class="with-error">Timestamps:</h3>
+      {% else %}
+      <h3 class="error-less">Timestamps:</h3>
+      {% endif %}
+
+      {{ form.timestamps }}
+
+      {% if form.errors.timestamps %}
+      {{ form.errors.timestamps }}
+      {% else %}
+      <br>
+      {% endif %}
+      <button type="submit">
+        Split
+      </button>
+    </form>
+
+    <!-- <div class="file-box">
+      <h5 id="file-upload-filename">Select or Drop File</h5>
+    </div> -->
+
+    <div class="form-buffer"></div>
+
+    <div class="col-lg-4 col-md-12 col-sm-12 help-box">
+      <div class="col-lg-10 col-md-12 col-md-12 offset-lg-1 box-content">
+        <strong class="heading">Help</strong>
+
+        <div class="accordion" id="help-accordion">
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                What is this tool for?
+              </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne"
+              data-bs-parent="#help-accordion">
+              <div class="accordion-body">
+                This tool splits audio into seperate files when given timestamps and titles, and packages it all into a
+                <code>.zip</code> for download.
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingTwo">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                What filetypes are supported?
+              </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+              data-bs-parent="#help-accordion">
+              <div class="accordion-body">
+                <code>mp3</code> and <code>wav</code> files are currently supported.
+              </div>
+            </div>
+          </div>
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="headingThree">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                How are timestamps supposed to be formatted?
+              </button>
+            </h2>
+            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
+              data-bs-parent="#help-accordion">
+              <div class="accordion-body">
+                Seperate the time from the title with a space, and seperate entries with a new line.
+                No slashes, or other invalid filename characters.<br>
+                Anything before the first space is time, and everything until the end of the line is the title.<br>
+                (eg. 00:00 Title A)<br>
+                Times may be in HH:MM:SS or MM:SS.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- React Files -->
+<script crossorigin src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+<script type="text/babel" src="..\..\static\split\fileDrop.js"></script>
+{% endblock content %}
